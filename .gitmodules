@@ -1,0 +1,3 @@
+[submodule "UR10_RTDE"]
+	path = UR10_RTDE
+	url = git@github.com:elpis-lab/UR10_RTDE.git
