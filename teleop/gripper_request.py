@@ -8,6 +8,8 @@ class GripperRequest:
     def __init__(self, host):
         self.host = host
         self.gripper_api_url = "http://" + host + ":8005"
+        self.task = None
+        self.lock = asyncio.Lock()  # To ensure thread-safe access to tasks
 
     async def control_gripper(self, action):
         """Control the gripper through its API"""
@@ -22,24 +24,29 @@ class GripperRequest:
             print(f"Error controlling gripper: {e}")
             return None
 
-    async def open_gripper(self):
+    async def open_gripper_async(self):
         res = await self.control_gripper("open")
         return res
 
-    async def close_gripper(self):
+    async def close_gripper_async(self):
         res = await self.control_gripper("close")
         return res
+
+    def open_gripper(self):
+        """Wrapper for opening the gripper."""
+        return asyncio.run(gripper.open_gripper_async())
+
+    def close_gripper(self):
+        """Wrapper for closing the gripper."""
+        return asyncio.run(gripper.close_gripper_async())
 
 
 if __name__ == "__main__":
     import time
 
     gripper = GripperRequest("130.215.216.42")
-    res = asyncio.run(gripper.open_gripper())
-    print(f"Open gripper response: {res}")
-    time.sleep(3.0)
-    res = asyncio.run(gripper.close_gripper())
-    print(f"Close gripper response: {res}")
-    time.sleep(3.0)
-    res = asyncio.run(gripper.open_gripper())
-    print(f"Open gripper response: {res}")
+    gripper.open_gripper()
+    time.sleep(1.5)
+    gripper.close_gripper()
+    time.sleep(1.5)
+    gripper.open_gripper()
