@@ -20,14 +20,19 @@ def main():
     # Initialize the gripper class
     gripper = GripperRequest("130.215.216.42")
     # Teleop control
-    teleop = VRTracker(rtde, gripper, rate=0.01, smooth_alpha=0.1)
+    teleop = VRTracker(
+        rtde,
+        gripper,
+        rate=0.01,  # Control rate in seconds
+        smooth_step=0.05,  # Smoothing step size, smaller is smoother
+        pos_mapping=(0.5, 0.5, 0.5),  # x, y, z mapping scaling
+    )
 
     try:
         while True:
             data = client_socket.recv(1024).decode("utf-8").strip()
             if not data:
                 break
-
             # Split the data by newline
             data = data.split('\n')
             if not data or not data[0]:
@@ -42,7 +47,6 @@ def main():
 
             values = list(map(float, data))
             position = values[:3]
-            # position[2] = position[2] * 0.3
             rotation = values[3:7]
             button1 = bool(values[7])
             button2 = bool(values[8])
