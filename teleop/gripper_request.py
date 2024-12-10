@@ -34,11 +34,11 @@ class GripperRequest:
 
     def open_gripper(self):
         """Wrapper for opening the gripper."""
-        return asyncio.run(gripper.open_gripper_async())
+        return asyncio.run(self.open_gripper_async())
 
     def close_gripper(self):
         """Wrapper for closing the gripper."""
-        return asyncio.run(gripper.close_gripper_async())
+        return asyncio.run(self.close_gripper_async())
 
 
 if __name__ == "__main__":
