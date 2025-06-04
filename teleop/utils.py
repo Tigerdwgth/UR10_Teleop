@@ -32,19 +32,19 @@ def interpolate_quat(quat1, quat2, u):
     quat1 = R.from_quat(quat1).as_quat()
     quat2 = R.from_quat(quat2).as_quat()
 
+
     # Spherical linear interpolation (SLERP)
     rotations = R.from_quat([quat1, quat2])
     slerp = Slerp([0, 1], rotations)
     interpolated_quat = slerp([u])[0].as_quat()
-
     return interpolated_quat
 
 
-def rotvec_to_quat(rotvec):
+def eular_to_quat(rotvec):
     """Convert rotation vector to a quaternion"""
-    return R.from_rotvec(rotvec).as_quat()
+    return R.from_euler('xyz',rotvec,degrees=True).as_quat()
 
 
-def quat_to_rotvec(quat):
+def quat_to_eular(quat):
     """Convert a quaternion to a rotation vector"""
-    return R.from_quat(quat).as_rotvec()
+    return R.from_quat(quat).as_euler('xyz',degrees=True)

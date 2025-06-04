@@ -13,6 +13,9 @@ public class VRControllerSender : MonoBehaviour
     private float lastUpdateTime = 0f;
     private float targetInterval = 0f;
 
+    [SerializeField] private Quaternion show_rotation = Quaternion.identity;
+    [SerializeField] private Vector3 show_position = Vector3.zero;
+
     [SerializeField] private GameObject controller;
     [SerializeField] private InputActionProperty trackingButton;
     [SerializeField] private InputActionProperty gripperButton;
@@ -116,7 +119,8 @@ public class VRControllerSender : MonoBehaviour
         Quaternion rotation = controller.transform.rotation;
         position = new Vector3(position.z, -position.x, position.y);
         rotation = new Quaternion(rotation.z, -rotation.x, rotation.y, -rotation.w);
-
+        this.show_position = position;
+        this.show_rotation = rotation;
         // Get button states
         bool button1 = trackingButtonTriggered;
         bool button2 = gripperButtonTriggered;
