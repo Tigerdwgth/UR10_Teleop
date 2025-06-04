@@ -1,5 +1,5 @@
-# UR10_Teleop
-A teleoperation package to control UR robot with VR controller
+# CR5_Teleop
+A teleoperation package to control CR robot with VR controller, from elpis-lab/UR10_Teleop.git
 
 ![](demo/demo.gif)
 
